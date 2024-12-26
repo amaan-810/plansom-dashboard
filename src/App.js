@@ -139,6 +139,7 @@ const App = () => {
                 fontSize: "1.5rem",
                 textAlign: "center",
                 flex: 1,
+                zIndex: "10",
               }}
             >
               Plansom
@@ -150,6 +151,8 @@ const App = () => {
             margin: isMobile ? "4rem 1rem 1rem" : "1rem",
             marginLeft: isMobile ? "0" : "15rem", // Prevent overlapping with the sidebar
             padding: "1rem",
+            backgroundImage:
+              "linear-gradient(95.58deg, #E2DDFE -1.33%, #E8EBF7 28.97%, #E8EBF7 73.81%, #D9D5F4 93.63%)",
           }}
         >
           <div
@@ -161,6 +164,16 @@ const App = () => {
             }}
           >
             <Search placeholder="Search Goals" enterButton />
+          </div>
+          <div>
+            <h3
+              style={{
+                marginBottom: "1rem",
+                fontSize: "1.5rem",
+              }}
+            >
+              My Day
+            </h3>
           </div>
           <div
             style={{
