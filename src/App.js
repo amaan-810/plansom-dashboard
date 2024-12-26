@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Layout, Menu, Card, Progress, Button, Grid, Input } from "antd";
+import React, { useState } from "react";
+import { Layout, Menu, Card, Progress, Button, Input } from "antd";
 import {
   UnorderedListOutlined,
   CalendarOutlined,
@@ -11,8 +11,7 @@ import {
 } from "@ant-design/icons";
 import "./App.css";
 
-const { Header, Sider, Content } = Layout;
-const { useBreakpoint } = Grid;
+const { Sider, Content } = Layout;
 const { Search } = Input;
 
 const goals = [
@@ -39,23 +38,24 @@ const goals = [
 ];
 
 const App = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const screens = useBreakpoint();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  // Adjust sidebar visibility based on screen size
-  useEffect(() => {
-    if (screens.lg) {
-      setCollapsed(false); // Always show sidebar on large screens
-      console.log(screens.lg);
-    }
-  }, [screens.lg]);
+  // Update state on window resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleSidebar = () => {
-    setCollapsed(!collapsed);
+    setSidebarVisible(!sidebarVisible);
   };
 
   const closeSidebar = () => {
-    setCollapsed(true);
+    setSidebarVisible(false);
   };
 
   return (
@@ -63,32 +63,32 @@ const App = () => {
       <Sider
         theme="light"
         collapsible
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
-        collapsedWidth={screens.lg ? "0" : "0"}
-        width={screens.lg ? 200 : "100%"}
+        collapsedWidth="0"
+        width={isMobile ? "100vw" : "15rem"}
         style={{
-          position: screens.lg ? "relative" : "absolute",
-          zIndex: 10,
+          position: "fixed",
+          zIndex: 1000,
           height: "100vh",
+          display: sidebarVisible || !isMobile ? "block" : "none",
         }}
       >
         <div
           className="logo"
           style={{
             textAlign: "center",
-            padding: "16px",
+            padding: "1rem",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <h2 style={{ margin: 0 }}>Plansom</h2>
-          {!screens.lg && (
+          <h2 style={{ margin: 0, fontSize: "1.5rem" }}>Plansom</h2>
+          {isMobile && (
             <Button
               icon={<CloseOutlined />}
               type="text"
               onClick={closeSidebar}
+              style={{ fontSize: "1.25rem" }}
             />
           )}
         </div>
@@ -111,30 +111,51 @@ const App = () => {
         </Menu>
       </Sider>
       <Layout>
-        {!screens.lg && (
-          <Header style={{ background: "#fff", padding: "0 16px" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                icon={<MenuOutlined />}
-                type="text"
-                onClick={toggleSidebar}
-                style={{ marginRight: "16px" }}
-              />
-              <h3 style={{ margin: "8px 0", flex: "1 1 auto" }}>Plansom</h3>
-            </div>
-          </Header>
-        )}
-        <Content style={{ margin: "16px" }}>
+        {/* Header for mobile screens */}
+        {isMobile && (
           <div
             style={{
-              marginBottom: "16px",
-              maxWidth: "400px",
+              background: "#fff",
+              padding: "0.5rem 1rem",
+              position: "fixed",
+              width: "100%",
+              zIndex: 500,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              height: "4rem",
+              borderBottom: "1px solid #ddd",
+            }}
+          >
+            <Button
+              icon={<MenuOutlined />}
+              type="text"
+              onClick={toggleSidebar}
+              style={{ fontSize: "1.25rem" }}
+            />
+            <h3
+              style={{
+                margin: 0,
+                fontSize: "1.5rem",
+                textAlign: "center",
+                flex: 1,
+              }}
+            >
+              Plansom
+            </h3>
+          </div>
+        )}
+        <Content
+          style={{
+            margin: isMobile ? "4rem 1rem 1rem" : "1rem",
+            marginLeft: isMobile ? "0" : "15rem", // Prevent overlapping with the sidebar
+            padding: "1rem",
+          }}
+        >
+          <div
+            style={{
+              marginBottom: "1rem",
+              maxWidth: "25rem",
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -144,28 +165,27 @@ const App = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: screens.lg
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : window.innerWidth >= 1024
                 ? "repeat(3, 1fr)"
-                : screens.md
-                ? "repeat(2, 1fr)"
-                : "1fr",
-              gap: "16px",
-              marginBottom: "16px",
+                : "repeat(2, 1fr)",
+              gap: "1rem",
             }}
           >
-            <Card title="AI Coach" style={{ maxWidth: "400px" }}>
+            <Card title="AI Coach" style={{ fontSize: "1rem" }}>
               <p>Your time management improved last week!</p>
               <Button type="link">Explore my stats</Button>
             </Card>
-            <Card title="Goals Progress" style={{ maxWidth: "400px" }}>
+            <Card title="Goals Progress" style={{ fontSize: "1rem" }}>
               {goals.map((goal) => (
-                <div key={goal.key} style={{ marginBottom: "12px" }}>
+                <div key={goal.key} style={{ marginBottom: "0.75rem" }}>
                   <p>{goal.name}</p>
                   <Progress percent={goal.progress} status={goal.status} />
                 </div>
               ))}
             </Card>
-            <Card title="Quick Wins" style={{ maxWidth: "400px" }}>
+            <Card title="Quick Wins" style={{ fontSize: "1rem" }}>
               <p>Update Social Media Profile</p>
               <Button type="primary">Complete Task</Button>
             </Card>
@@ -177,3 +197,7 @@ const App = () => {
 };
 
 export default App;
+
+//sucess full in lap and above and moblie large till small in problem in tablet
+
+//fourth version
