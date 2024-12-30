@@ -1,12 +1,21 @@
-html{
-  box-sizing: border-box;
-}
+
 
 .mycard{
   height: 20rem;
  
 }
 
+.mybutton{
+background-color: "#3100A6";
+  color: white;
+  border-radius: "1.5rem";
+  font-weight: "bold";
+  padding: "1.5rem";
+}
+
+.myblue{
+  
+}
 
 .myprogress{
   font-size: 0.75rem;

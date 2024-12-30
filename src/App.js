@@ -20,6 +20,8 @@ import {
   CloseOutlined,
   UserOutlined,
   BulbOutlined,
+  SearchOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import "./App.css";
 
@@ -170,12 +172,46 @@ const App = () => {
           <div
             style={{
               marginBottom: "0.5rem",
-              maxWidth: "25rem",
-              marginLeft: "auto",
-              marginRight: "auto",
             }}
           >
-            <Search placeholder="Search Goals" enterButton />
+            <Flex align="center" justify="space-around">
+              <div>
+                <Input
+                  placeholder="Search for a..."
+                  prefix={<SearchOutlined />}
+                  style={{
+                    borderRadius: "1.5rem",
+                    width: "15rem",
+                    padding: "0.5rem",
+                    margin: "0.5rem",
+                  }}
+                ></Input>
+                <Button
+                  type="default"
+                  icon={isMobile ? <PlusOutlined /> : ""}
+                  iconPosition="start"
+                  style={{
+                    backgroundColor: "#3100A6",
+                    color: "white",
+                    borderRadius: "1.5rem",
+                    fontWeight: "bold",
+                    padding: "1rem",
+                    width: "",
+                  }}
+                >
+                  {isMobile ? "" : "Add Item"}
+                </Button>
+              </div>
+              {/* <Search placeholder="Search Goals" enterButton /> */}
+              {/* {isMobile ? (
+                ""
+              ) : (
+                <Flex style={{ padding: "1rem" }}>
+                  <Avatar size={40} icon={<UserOutlined />} />
+                  <p style={{ margin: "0.5rem" }}>user</p>
+                </Flex>
+              )} */}
+            </Flex>
           </div>
           <div>
             <h3
