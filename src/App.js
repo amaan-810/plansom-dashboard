@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Layout, Menu, Card, Progress, Button, Input } from "antd";
+import {
+  Layout,
+  Menu,
+  Card,
+  Progress,
+  Button,
+  Input,
+  Avatar,
+  Flex,
+  Carousel,
+} from "antd";
 import {
   UnorderedListOutlined,
   CalendarOutlined,
@@ -8,6 +18,8 @@ import {
   ClockCircleOutlined,
   MenuOutlined,
   CloseOutlined,
+  UserOutlined,
+  BulbOutlined,
 } from "@ant-design/icons";
 import "./App.css";
 
@@ -15,25 +27,25 @@ const { Sider, Content } = Layout;
 const { Search } = Input;
 
 const goals = [
-  { key: "1", name: "Capacity increasing", progress: 78, status: "active" },
+  { key: "1", name: "Capacity increasing", progress: 78, status: "green" },
   {
     key: "2",
     name: "Quality Control Enhancing",
     progress: 54,
-    status: "active",
+    status: "green",
   },
   {
     key: "3",
     name: "Distribution Network Expanding",
     progress: 46,
-    status: "warning",
+    status: "yellow",
   },
-  { key: "4", name: "Event-Based Promotion", progress: 33, status: "warning" },
+  { key: "4", name: "Event-Based Promotion", progress: 33, status: "yellow" },
   {
     key: "5",
     name: "Customer Loyalty Building",
     progress: 16,
-    status: "exception",
+    status: "red",
   },
 ];
 
@@ -148,7 +160,7 @@ const App = () => {
         )}
         <Content
           style={{
-            margin: isMobile ? "4rem 1rem 1rem" : "1rem",
+            margin: isMobile ? "4rem 1rem 1rem" : "0rem",
             marginLeft: isMobile ? "0" : "15rem", // Prevent overlapping with the sidebar
             padding: "1rem",
             backgroundImage:
@@ -157,7 +169,7 @@ const App = () => {
         >
           <div
             style={{
-              marginBottom: "1rem",
+              marginBottom: "0.5rem",
               maxWidth: "25rem",
               marginLeft: "auto",
               marginRight: "auto",
@@ -169,6 +181,7 @@ const App = () => {
             <h3
               style={{
                 marginBottom: "1rem",
+                marginTop: "0rem",
                 fontSize: "1.5rem",
               }}
             >
@@ -182,27 +195,132 @@ const App = () => {
                 ? "1fr"
                 : window.innerWidth >= 1024
                 ? "repeat(3, 1fr)"
-                : "repeat(2, 1fr)",
+                : "",
+              // "repeat(2, 1fr)",
               gap: "1rem",
             }}
           >
-            <Card title="AI Coach" style={{ fontSize: "1rem" }}>
-              <p>Your time management improved last week!</p>
-              <Button type="link">Explore my stats</Button>
+            <Card
+              // title="AI Coach"
+              className="mycard"
+              style={{
+                fontSize: "1rem",
+                backgroundColor: "#3100A6",
+                color: "white",
+              }}
+            >
+              <div>
+                <Flex align="center">
+                  {" "}
+                  <Avatar size={64} icon={<UserOutlined />} />
+                  <Flex vertical>
+                    <p className="avtarSideText">AI Coach</p>
+                    <p
+                      className="avtarSideText"
+                      style={{ fontSize: "0.75rem", fontWeight: "lighter" }}
+                    >
+                      insight for today
+                    </p>
+                  </Flex>
+                </Flex>
+              </div>
+              <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+                Your <span style={{ color: "yellow" }}>time management</span>{" "}
+                improved last week!
+              </p>
+              <Button
+                type="default"
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "1.5rem",
+                  fontWeight: "bold",
+                  padding: "1.5rem",
+                }}
+              >
+                Explore my stats
+              </Button>
             </Card>
-            <Card title="Goals Progress" style={{ fontSize: "1rem" }}>
+            <Card style={{ fontSize: "1rem" }} className="mycard">
+              <div>
+                <strong style={{ fontSize: "1.25rem", margin: "1rem 0rem" }}>
+                  Goals Progress
+                </strong>
+              </div>
               {goals.map((goal) => (
-                <div key={goal.key} style={{ marginBottom: "0.75rem" }}>
-                  <p>{goal.name}</p>
-                  <Progress percent={goal.progress} status={goal.status} />
+                <div key={goal.key} className="myprogress">
+                  <p style={{ margin: "0rem" }}>{goal.name}</p>
+                  <Progress
+                    percent={goal.progress}
+                    status={goal.status}
+                    strokeColor={goal.status}
+                    size="small"
+                  />
                 </div>
               ))}
             </Card>
-            <Card title="Quick Wins" style={{ fontSize: "1rem" }}>
+            <Card
+              // title="Quick Wins"
+              style={{ fontSize: "1rem" }}
+              className="mycard"
+            >
+              <div>
+                <strong style={{ fontSize: "1.25rem", margin: "1rem 0rem" }}>
+                  Quick Wins
+                </strong>
+              </div>
               <p>Update Social Media Profile</p>
-              <Button type="primary">Complete Task</Button>
+              <Flex gap="middle" justify="center">
+                <Button
+                  type="default"
+                  style={{
+                    backgroundColor: "#3100A6",
+                    color: "white",
+                    borderRadius: "1.5rem",
+                    fontWeight: "bold",
+                    padding: "1.5rem",
+                    width: "",
+                  }}
+                >
+                  Complete Task
+                </Button>
+                <Button
+                  type="primary"
+                  shape="circle"
+                  style={{
+                    backgroundColor: "white",
+                    color: "grey",
+                    borderRadius: "1.5rem",
+                    fontWeight: "bold",
+                    padding: "1.5rem",
+                  }}
+                  icon={<BulbOutlined />}
+                />
+              </Flex>
             </Card>
           </div>
+          <div>
+            <p
+              style={{
+                display: "block",
+                backgroundColor: "white",
+                margin: "1rem",
+                fontSize: "1.5rem",
+                fontStyle: "bold",
+                height: "50vh",
+              }}
+            >
+              My Task
+            </p>
+          </div>
+          {/* <div
+            style={{
+              height: "50vh",
+              color: "white",
+              border: "1 px solid rounded-xl",
+            }}
+          >
+            <p>khskahgsiuhag</p>
+          </div> */}
         </Content>
       </Layout>
     </Layout>
