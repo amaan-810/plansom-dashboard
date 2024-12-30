@@ -182,7 +182,9 @@ const Home = () => {
                   prefix={<SearchOutlined />}
                   style={{
                     borderRadius: "1.5rem",
-                    width: `calc(100vw - 50vw)`,
+                    width: isMobile
+                      ? `calc(100vw - 30vw)`
+                      : `calc(100vw - 50vw)`,
                     padding: "0.5rem",
                     margin: "0.5rem",
                   }}
